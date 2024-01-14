@@ -9,5 +9,9 @@ import Foundation
 
 protocol UseCase {
     var repository: Repository { get }
-    func execute<ResultType: Codable, Params>(params: Params) async -> Result<ResultType, Error>
+    associatedtype ResultType: Codable
+    associatedtype Params
+    func execute(params: Params) async -> Result<ResultType, Error>
 }
+
+class NoParams {}

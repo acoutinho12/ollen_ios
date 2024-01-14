@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct OllenApp: App {
+    @StateObject var appCoordinator = AppCoordinator()
     var body: some Scene {
         WindowGroup {
-            ContentView()
-        }
+            appCoordinator.build()
+        }.environmentObject(appCoordinator)
     }
 }

@@ -9,13 +9,19 @@ import Combine
 import SwiftUI
 
 struct AppView: View {
+    @StateObject var homeCoordinator = HomeCoordinator(path: NavigationPath())
     var body: some View {
         TabView {
-            Text("Hello")
-                .tabItem {
-                    Label("Home", systemImage: "house.fill")
-                }
-            Text("Hello")
+            NavigationStack(path: $homeCoordinator.path, root: {
+                homeCoordinator.build()
+                    .navigationDestination(for: HomePage.self) { page in
+                        homeCoordinator.build(page: page)
+                    }
+            })
+            .tabItem {
+                Label("Home", systemImage: "house.fill")
+            }
+            FavoriteView()
                 .tabItem {
                     Label("Favorites", systemImage: "heart")
                 }
@@ -23,7 +29,7 @@ struct AppView: View {
                 .tabItem {
                     Label("Setting", systemImage: "gear")
                 }
-        }
+        }.environmentObject(homeCoordinator)
     }
 }
 
